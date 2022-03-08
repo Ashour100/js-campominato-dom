@@ -6,7 +6,7 @@ button.addEventListener("click", function(){
     squareWrapper.innerHTML="";
     switch (select.value){
         case '1':
-            for(let i=1;i<101;i++){
+            for(let i=1;i<=100;i++){
                 let tempSquare= document.createElement("div");
                 tempSquare.classList.add("square");
                 squareWrapper.appendChild(tempSquare);
@@ -16,7 +16,7 @@ button.addEventListener("click", function(){
             }
         break;
         case '2':
-            for(let i=1;i<82;i++){
+            for(let i=1;i<=81;i++){
                 let tempSquare= document.createElement("div");
                 tempSquare.classList.add("square","square_9");
                 squareWrapper.appendChild(tempSquare);
@@ -26,7 +26,7 @@ button.addEventListener("click", function(){
             }
         break;
         case '3':
-            for(let i=1;i<50;i++){
+            for(let i=1;i<=49;i++){
                 let tempSquare= document.createElement("div");
                 tempSquare.classList.add("square","square_7");
                 squareWrapper.appendChild(tempSquare);
@@ -39,23 +39,14 @@ button.addEventListener("click", function(){
 
 
     let squares= document.getElementsByClassName("square");
-
-    
-    let randomNum= function(){
-        let blackList=[];
+    let blackList=[];
+    let RndNum= function(){
         let temp;
-        let ver=0;
         let rep=0;
         while(rep==0){
             temp=Math.floor(Math.random() * squares.length + 1);
-            for(let i=0;i<blackList.length;i++){
-                if(blackList[i]==temp){
-                    ver=1;
-                }
-            }
-            if(ver==1)
+            if(!(blackList.includes(temp))){
                 rep=1;
-            else{
                 blackList.push(temp);
                 return temp;
             }
@@ -63,8 +54,8 @@ button.addEventListener("click", function(){
     }
 
     let bombs=[];
-    for(let i=0;i<16;i++)
-        bombs[i]=randomNum();
+    for(let i=1;i<=16;i++)
+        bombs[i]=RndNum();
     console.log(bombs);
 
 
@@ -72,7 +63,7 @@ button.addEventListener("click", function(){
     let bombReveal= function(){
         for(let i=0;i<squares.length;i++){
             if(bombs.includes(i)){
-                squares[i].classList.add("bomb");
+                squares[i-1].classList.add("bomb");
             }
         }
     }
@@ -82,8 +73,8 @@ button.addEventListener("click", function(){
     }
 
 
-    for(let i=0;i<squares.length;i++){
-        squares[i].addEventListener("click",function(){            
+    for(let i=1;i<=squares.length;i++){
+        squares[i-1].addEventListener("click",function(){            
             if(bombs.includes(i)){
                 this.classList.add("bomb");
                 setTimeout(bombReveal,400);
