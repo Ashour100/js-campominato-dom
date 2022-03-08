@@ -36,24 +36,58 @@ button.addEventListener("click", function(){
             }
         break;
     }
+
+
     let squares= document.getElementsByClassName("square");
-    // console.log(squares);
+
+    
+    let randomNum= function(){
+        let blackList=[];
+        let temp;
+        let ver=0;
+        let rep=0;
+        while(rep==0){
+            temp=Math.floor(Math.random() * squares.length + 1);
+            for(let i=0;i<blackList.length;i++){
+                if(blackList[i]==temp){
+                    ver=1;
+                }
+            }
+            if(ver==1)
+                rep=1;
+            else{
+                blackList.push(temp);
+                return temp;
+            }
+        }
+    }
+
     let bombs=[];
     for(let i=0;i<16;i++)
-        bombs[i]=Math.floor(Math.random() * squares.length + 1);
+        bombs[i]=randomNum();
     console.log(bombs);
+
+
     let points=0;
-    for(let i=0;i<squares.length;i++){
-        let isbomb=false;
-        for(let a=0;a<16;a++){
-            if(i==bombs[a])
-                isbomb=true;
+    let bombReveal= function(){
+        for(let i=0;i<squares.length;i++){
+            if(bombs.includes(i)){
+                squares[i].classList.add("bomb");
+            }
         }
+    }
+    let gameOver= function(){
+        alert("hai perso\nil punteggio: "+points);
+        location.reload();
+    }
+
+
+    for(let i=0;i<squares.length;i++){
         squares[i].addEventListener("click",function(){            
-            if(isbomb){
+            if(bombs.includes(i)){
                 this.classList.add("bomb");
-                alert("hai perso\nil punteggio: "+points);
-                location.reload();
+                setTimeout(bombReveal,400);
+                setTimeout(gameOver,500);
             }
             else{
                 this.classList.add("clicked");
@@ -61,4 +95,5 @@ button.addEventListener("click", function(){
             }
         })
     }
-})
+}
+);
